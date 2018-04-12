@@ -1,12 +1,48 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<html ng-app="pomodoroC230">
+
+  <head lang="en">
+    <title>Pomodoro@C230</title>
     <meta charset="UTF-8">
-    <title>Bloc Base Project</title>
-    <link rel="stylesheet" href="/styles/main.css">
-</head>
-<body>
-    <h4>Hello, World???</h4>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800,600,700,300">
+    <link rel="stylesheet" type="text/css" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+  </head>
+
+  <body>
+    <h1>Text at index.html </h1>
+
+    <!-- ui-view tells $state where to place templates -->
+    <ui-view> </ui-view>
+
+    <!-- Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.2.0/buzz.min.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+
     <script src="/scripts/app.js"></script>
-</body>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyD2C36lQTz8ZCAYir1o_2TwsocJLQTAugA",
+        authDomain: "pomodoro-c230.firebaseapp.com",
+        databaseURL: "https://pomodoro-c230.firebaseio.com",
+        projectId: "pomodoro-c230",
+        storageBucket: "",
+        messagingSenderId: "263387448925"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- Register controllers -->
+    <script src="/scripts/controllers/HomeCtrl.js"></script>
+
+
+  </body>
+
 </html>
