@@ -15,6 +15,18 @@ body {
   min-height: 100%;
 }
 
+.take-all-height {
+  height: 70vh;
+}
+
+.logo {
+  height: 60px;
+}
+
+.tasks {
+  font-size: medium;
+  line-height: 1rem;
+}
 /* Medium and small screens (i.e. 640px) */
 @media (min-width: 640px) {
   html {font-size: 112%;}

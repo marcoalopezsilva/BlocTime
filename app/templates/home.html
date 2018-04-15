@@ -1,1 +1,19 @@
-<h4>Text at home.html</h4>
+<body ng-controller="HomeCtrl">
+  <div class="row">
+    <div class="col-3 bg-dark take-all-height text-white">
+      <div class="tasks">
+        <br/>
+        <p>(Column 1)</p>
+        <p>(Tasks will go here)</p>
+      </div>
+    </div>
+    <div class="col take-all-height text-center align-middle">
+        <br/>
+        <p>{{message}}</p>
+        <br/>
+        <button type="button" class="btn btn-success" ng-hide="timer" ng-click="startTimer()">Start!</button>
+        <button type="button" class="btn btn-danger" ng-show="timer" ng-click="stopTimer()">Stop</button>
+        <button type="button" class="btn btn-warning" ng-show="timer" ng-click="resetTimer()">Reset</button>
+    </div>
+  </div>
+</body>
