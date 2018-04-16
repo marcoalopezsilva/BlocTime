@@ -13,7 +13,8 @@
         <br/>
         <button type="button" class="btn btn-success" ng-hide="timer" ng-click="startTimer()">Start!</button>
         <button type="button" class="btn btn-danger" ng-show="timer" ng-click="stopTimer()">Stop</button>
-        <button type="button" class="btn btn-warning" ng-show="timer" ng-click="resetTimer()">Reset</button>
+        <button type="button" class="btn btn-warning" ng-show="resetOption" ng-click="resetTimer()">Reset</button>
+        <button type="button" class="btn btn-primary" ng-show="pomodoroBlockCompleted" ng-click="startBreak()">Take a Break</button>
     </div>
   </div>
 </body>
