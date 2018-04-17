@@ -11,10 +11,10 @@
         <br/>
         <p>{{message}}</p>
         <br/>
-        <button type="button" class="btn btn-success" ng-hide="timer" ng-click="startTimer()">Start!</button>
-        <button type="button" class="btn btn-danger" ng-show="timer" ng-click="stopTimer()">Stop</button>
-        <button type="button" class="btn btn-warning" ng-show="resetOption" ng-click="resetTimer()">Reset</button>
-        <button type="button" class="btn btn-primary" ng-show="pomodoroBlockCompleted" ng-click="startBreak()">Take a Break</button>
+        <button type="button" class="btn btn-success" ng-show="showStartOption" ng-click="startTimer()">Start!</button>
+        <button type="button" class="btn btn-danger" ng-show="showStopOption" ng-click="stopTimer()">Stop</button>
+        <button type="button" class="btn btn-warning" ng-show="showResetOption" ng-click="resetTimer()">Reset</button>
+        <button type="button" class="btn btn-primary" ng-show= "showBreakOption" ng-click="startBreak()">Take a Break</button>
     </div>
   </div>
 </body>
