@@ -3,16 +3,25 @@
     function HomeCtrl($scope, $interval, $filter, $timeout) {
 
       // Set max time to 25:00
-      ALLOWED_TIME_BLOCK = 25*60;
-      STANDARD_BREAK =  5*60;
-      LONGER_BREAK = 30*60;
+      ALLOWED_TIME_BLOCK = 10;
+      STANDARD_BREAK =  5;
+      LONGER_BREAK = 7;
       ORIGINAL_MESSAGE = "Allowed time for Pomodoro block: " + ALLOWED_TIME_BLOCK/60 + " minutes"
       $scope.message = ORIGINAL_MESSAGE;
 
       // Initiate objects and variables needed for tracking
       $scope.timer = null;
       $scope.pomodoroBlockCompleted = null;
+      console.log("pomodoroBlockCompleted = " + $scope.pomodoroBlockCompleted);
+      $scope.breakCompleted = null;
+      console.log("breakCompleted = " + $scope.breakCompleted);
+
       $scope.numberPomodorosCompleted = 0;
+
+      //Initialize Buzz object
+      var timerSound = new buzz.sound("/assets/Elevator Ding-SoundBible.com-685385892.mp3", {
+          preload: true
+      });
 
       // Initialize show options variables
       $scope.showStartOption = true;
@@ -23,6 +32,8 @@
       // Timer Start function
       $scope.startTimer = function () {
         console.log("Called startTimer function");
+        $scope.pomodoroBlockCompleted = null;
+        console.log("pomodoroBlockCompleted = " + $scope.pomodoroBlockCompleted);
         $scope.message = "Timer started";
         $scope.time = ALLOWED_TIME_BLOCK;
         $scope.showStopOption = true;
@@ -36,10 +47,12 @@
             $scope.time--;
           } else {
             $scope.message = "Time is up!";
+            $scope.pomodoroBlockCompleted = true;
+            console.log("pomodoroBlockCompleted = " + $scope.pomodoroBlockCompleted);
+            console.log("breakCompleted = " + $scope.breakCompleted);
             setTimeout(function(){$scope.message = ORIGINAL_MESSAGE}, 1000);
             $interval.cancel($scope.timer);
             $scope.timer = null;
-            $scope.pomodoroBlockCompleted = true;
             $scope.numberPomodorosCompleted = $scope.numberPomodorosCompleted + 1;
             console.log("Pomodoro work blocks completed: " + $scope.numberPomodorosCompleted);
             $scope.showStartOption = true;
@@ -52,11 +65,13 @@
 
       $scope.stopTimer = function () {
         console.log("Called stopTimer function");
+        $scope.pomodoroBlockCompleted = null;
         setTimeout(function() {$scope.message = "Timer stopped"}, 1000);
         // Cancel Timer
         $interval.cancel($scope.timer);
         $scope.message = ORIGINAL_MESSAGE;
-        $scope.pomodoroBlockCompleted = null;
+        console.log("pomodoroBlockCompleted = " + $scope.pomodoroBlockCompleted);
+        console.log("breakCompleted = " + $scope.breakCompleted);
         $scope.showStartOption = true;
         $scope.showStopOption = null;
         $scope.showResetOption = null;
@@ -65,7 +80,10 @@
 
       $scope.resetTimer = function () {
         console.log("Called resetTimer function");
+        $scope.pomodoroBlockCompleted = null;
         setTimeout(function(){$scope.message = "Timer reset!"}, 1000);
+        console.log("pomodoroBlockCompleted = " + $scope.pomodoroBlockCompleted);
+        console.log("breakCompleted = " + $scope.breakCompleted);
         $interval.cancel($scope.timer);
         $scope.startTimer();
       };
@@ -73,6 +91,9 @@
       $scope.startBreak = function () {
         console.log("Called startBreak function");
         $scope.message = "Break initiated!";
+        $scope.pomodoroBlockCompleted = null;
+        console.log("pomodoroBlockCompleted = " + $scope.pomodoroBlockCompleted);
+        console.log("breakCompleted = " + $scope.breakCompleted);
         //I'll assume that the user should not be able to reset the timer when o break (would defeat the purpose of the Pomodoro method)
         $scope.showStartOption = null;
         $scope.showResetOption = null;
@@ -91,6 +112,9 @@
             $scope.message = filteredTime;
             $scope.time--;
           } else {
+            $scope.breakCompleted = true;
+            console.log("pomodoroBlockCompleted = " + $scope.pomodoroBlockCompleted);
+            console.log("breakCompleted = " + $scope.breakCompleted);
             setTimeout(function(){
               $scope.message = "Break is over!";
               $interval.cancel($scope.timer);
@@ -105,6 +129,12 @@
           }
         }, 1000);
       };
+
+      // Add watcher for timer end, play sound
+      $scope.$watchGroup(['pomodoroBlockCompleted', 'breakCompleted'], function() {
+          console.log("Watcher fired! Sound should play");
+          timerSound.play();
+      });
 
     }
 
