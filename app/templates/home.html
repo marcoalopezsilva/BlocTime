@@ -5,9 +5,9 @@
       <div class="tasks">
         <br/>
         <p class="font-weight-bold">Tasks history:</p>
-        <section ng-repeat="item in Task.all">
+        <section ng-repeat="item in Task.all | orderBy:'-sentAt'">
           <ul>
-            <li>{{item["task_name"]}}</li>
+            <li>{{ item["task_name"] }}</li>
           </ul>
         </section>
       </div>

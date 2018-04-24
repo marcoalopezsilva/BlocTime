@@ -10,7 +10,10 @@
 
     Task.sendTask = function (name) {
       var tempholder = $firebaseArray(ref);
-      tempholder.$add({task_name: name});
+      tempholder.$add({
+        task_name: name,
+        sentAt: firebase.database.ServerValue.TIMESTAMP
+      });
     };
 
     return Task;
