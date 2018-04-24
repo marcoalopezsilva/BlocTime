@@ -1,12 +1,22 @@
 (function() {
 
-    function HomeCtrl($scope, $interval, $filter, $timeout) {
+    function HomeCtrl($scope, $interval, $filter, $timeout, Task) {
 
-      // Set max time to 25:00
+      // Make the Firebase data available to controller
+      $scope.Task = Task;
+
+      /* List of production-version time allowances
       ALLOWED_TIME_BLOCK = 25*60;
       STANDARD_BREAK =  5*60;
       LONGER_BREAK = 30*60;
-      ORIGINAL_MESSAGE = "Allowed time for Pomodoro block: " + ALLOWED_TIME_BLOCK/60 + " minutes"
+      ORIGINAL_MESSAGE = "Allowed time for Pomodoro block: " + ALLOWED_TIME_BLOCK/60 + " minutes" */
+
+      // List of test-version time allowances
+      ALLOWED_TIME_BLOCK = 5;
+      STANDARD_BREAK =  3;
+      LONGER_BREAK = 4;
+      ORIGINAL_MESSAGE = "Allowed time for Pomodoro block: " + Math.round(ALLOWED_TIME_BLOCK/60*100)/100 + " minutes"
+
       $scope.message = ORIGINAL_MESSAGE;
 
       // Initiate objects and variables needed for tracking
@@ -26,6 +36,7 @@
       $scope.showStopOption = null;
       $scope.showResetOption = null;
       $scope.showBreakOption = null;
+      $scope.showAddTask = null;
 
       // Add watcher to play sound whenever a work-block (or a break) is completed
       $scope.$watchGroup(['pomodoroBlockCompleted', 'breakCompleted'], function() {
@@ -45,6 +56,7 @@
         $scope.showResetOption = true;
         $scope.showStartOption = null;
         $scope.showBreakOption = null;
+        $scope.showAddTask = null;
         $scope.timer = $interval(function () {
           if ($scope.time > 0) {
             var filteredTime = $filter('date')(new Date(1970,0,1).setSeconds($scope.time), 'mm:ss');
@@ -53,6 +65,7 @@
           } else {
             $scope.message = "Time is up!";
             $scope.pomodoroBlockCompleted = true;
+            $scope.showAddTask = true;
             setTimeout(function(){$scope.message = ORIGINAL_MESSAGE}, 1000);
             $interval.cancel($scope.timer);
             $scope.timer = null;
@@ -66,6 +79,7 @@
         }, 1000);
     };
 
+      // Timer Stop function
       $scope.stopTimer = function () {
         console.log("Called stopTimer function");
         setTimeout(function() {$scope.message = "Timer stopped"}, 1000);
@@ -97,6 +111,7 @@
         $scope.showResetOption = null;
         $scope.showStopOption = true;
         $scope.showBreakOption = null;
+        $scope.showAddTask = null;
         if ($scope.numberPomodorosCompleted == 4) {
           $scope.time = LONGER_BREAK;
           $scope.numberPomodorosCompleted = 0;
@@ -119,16 +134,23 @@
               $scope.showStopOption = null;
               $scope.showBreakOption = null;
               $scope.showResetOption = null;
-            }, 1000);
+            }, 100);
           //Next line is needed if the next block should automatically begin when the break is over
           //$scope.startTimer();
           }
         }, 1000);
       };
 
+      $scope.addTask = function () {
+        console.log("addTask function called");
+        Task.sendTask($scope.newTaskName);
+        this.newTaskName = null;
+        $scope.showAddTask = null;
+      };
+
     }
 
     angular
         .module('pomodoroC230')
-        .controller('HomeCtrl', ['$scope', '$interval', '$filter', '$timeout', HomeCtrl]);
+        .controller('HomeCtrl', ['$scope', '$interval', '$filter', '$timeout', 'Task', HomeCtrl]);
 })();

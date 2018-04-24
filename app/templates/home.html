@@ -1,20 +1,37 @@
 <body ng-controller="HomeCtrl">
+
   <div class="row">
     <div class="col-3 bg-dark take-all-height text-white">
       <div class="tasks">
         <br/>
-        <p>(Column 1)</p>
-        <p>(Tasks will go here)</p>
+        <p class="font-weight-bold">Tasks history:</p>
+        <section ng-repeat="item in Task.all">
+          <ul>
+            <li>{{item["task_name"]}}</li>
+          </ul>
+        </section>
       </div>
     </div>
     <div class="col take-all-height text-center align-middle">
         <br/>
         <p>{{message}}</p>
-        <br/>
         <button type="button" class="btn btn-success" ng-show="showStartOption" ng-click="startTimer()">Start!</button>
         <button type="button" class="btn btn-danger" ng-show="showStopOption" ng-click="stopTimer()">Stop</button>
         <button type="button" class="btn btn-warning" ng-show="showResetOption" ng-click="resetTimer()">Reset</button>
         <button type="button" class="btn btn-primary" ng-show= "showBreakOption" ng-click="startBreak()">Take a Break</button>
+        </br>
+        <div class="w-100"></div>
+        <!-- Next section appears only when a work-block is completed. It seems intuitive to let the user name the task only after completion... -->
+        <section class="col text-center align-middle mt-4" ng-show="showAddTask">
+          <form name="taskSenderForm" ng-submit="addTask()">
+            <p>Enter the completed Task's name: </p>
+            <input type="text" ng-model="newTaskName" placeholder="Task's name here..." />
+            <button class="btn btn-dark" type="submit">Add</button>
+          </form>
+        </section>
     </div>
   </div>
+
+
+
 </body>
