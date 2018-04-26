@@ -4,7 +4,7 @@ const Path = require('path');
 
 let connection = {
     port: process.env.PORT || 3000,
-    host: process.env.IP || 'localhost'
+    host: process.env.IP || '0.0.0.0'
 };
 
 let routes = [
